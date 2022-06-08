@@ -3,6 +3,7 @@ package com.codepath.apps.restclienttemplate;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,16 +19,21 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 import okhttp3.Headers;
 
 public class TimelineActivity extends AppCompatActivity {
 
     public static final String TAG = "TimelineActivity";
+    public final int REQUEST_CODE = 20;
 
+    private SwipeRefreshLayout swipeContainer;
     TwitterClient client;
     RecyclerView rvTweets;
     List<Tweet> tweets;
@@ -52,6 +58,20 @@ public class TimelineActivity extends AppCompatActivity {
             }
         });
 
+        //refresh
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.srl);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                tweets.clear();
+                adapter.notifyDataSetChanged();
+                populateHomeTimeline();
+
+            }
+        });
+
+
+
         //init list of tweets and adapter
         tweets = new ArrayList<>();
         adapter = new TweetsAdapter(this, tweets);
@@ -66,6 +86,8 @@ public class TimelineActivity extends AppCompatActivity {
         populateHomeTimeline();
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -78,11 +100,21 @@ public class TimelineActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.compose) {
 //            Toast.makeText(this, "compose!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, ComposeActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_CODE);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode==REQUEST_CODE && resultCode==RESULT_OK) {
+            Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
+            tweets.add(0,tweet);
+            adapter.notifyItemInserted(0);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void populateHomeTimeline() {
@@ -94,6 +126,7 @@ public class TimelineActivity extends AppCompatActivity {
                 try {
                     tweets.addAll(Tweet.fromJsonArray(jsonArray));
                     adapter.notifyDataSetChanged();
+                    swipeContainer.setRefreshing(false);
                 } catch (JSONException e) {
                     Log.e(TAG, "Json exception", e);
                     e.printStackTrace();
