@@ -9,33 +9,48 @@
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/srl"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvTweets"
         android:layout_width="405dp"
-        android:layout_height="582dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+        android:layout_height="674dp"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvTweets"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
     <Button
         android:id="@+id/btnLogout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="157dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="157dp"
+        android:layout_width="63dp"
+        android:layout_height="82dp"
         android:text="Log out"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/navigation"
         app:layout_constraintTop_toBottomOf="@+id/srl" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="333dp"
+        android:layout_height="57dp"
+        android:layout_gravity="start"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.038"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/nav_bar">
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
