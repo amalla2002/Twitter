@@ -47,7 +47,6 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-![Screen_Recording_2022-06-10_at_4_23_04_PM_copy_AdobeExpress](https://user-images.githubusercontent.com/96102973/173163005-0cfc9990-09db-47ce-a797-0dea7564d5fb.gif)
 ![Screen_Recording_2022-06-10_at_4_23_04_PM_copy_AdobeExpress-2](https://user-images.githubusercontent.com/96102973/173163222-09a12050-d469-4da5-bfba-cddeacf72765.gif)
 
 
