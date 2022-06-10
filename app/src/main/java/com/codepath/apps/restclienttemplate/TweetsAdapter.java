@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -61,6 +62,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         ImageView ivMedia; // new
         TextView tvCreatedAt;
         TextView tvName;
+        ImageButton ibLike;
+        TextView tvLikeCount;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -70,6 +73,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ivMedia = itemView.findViewById(R.id.ivMedia); //new
             tvCreatedAt = itemView.findViewById(R.id.tvCreated);
             tvName = itemView.findViewById(R.id.tvName);
+            ibLike = itemView.findViewById(R.id.ibLike);
+            tvLikeCount = itemView.findViewById(R.id.tvLikeCount);
 
         }
         public void bind(Tweet tweet) {
@@ -85,6 +90,19 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                 ivMedia.setVisibility(View.GONE);
             }
             tvCreatedAt.setText(getRelativeTimeAgo(tweet.createdAt));
+
+            ibLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    // not liked
+                        // send like, up like count, change icon
+
+
+                    // liked
+                        //send unlike. lower like count, change icon
+                }
+            });
 
         }
         //
