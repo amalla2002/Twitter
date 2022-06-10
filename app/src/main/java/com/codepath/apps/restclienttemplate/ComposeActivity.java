@@ -54,9 +54,9 @@ public class ComposeActivity extends AppCompatActivity {
                     Toast.makeText(ComposeActivity.this, "Sorry, exceeded character limit", Toast.LENGTH_LONG).show();
                     return;
                 }
-                Toast.makeText(ComposeActivity.this, tweetContent, Toast.LENGTH_LONG).show();
+                Toast.makeText(ComposeActivity.this, "Sent!", Toast.LENGTH_LONG).show();
 
-                client.publishTweet(tweetContent, new JsonHttpResponseHandler() {
+                JsonHttpResponseHandler niceHandler = new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Headers headers, JSON json) {
                         Log.i(TAG, "succ");
@@ -76,7 +76,16 @@ public class ComposeActivity extends AppCompatActivity {
                     public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                         Log.e(TAG, "fail", throwable);
                     }
-                });
+                };
+
+                if (getIntent().hasExtra("should_reply_to_tweet")) {
+                    String idOfTweetToReplyTo = getIntent().getStringExtra("id_of_tweet_to_reply_to");
+                    String username = getIntent().getStringExtra("username");
+                    client.replyToTweet(idOfTweetToReplyTo, "@" + username + " " + tweetContent, niceHandler);
+                } else {
+                    client.publishTweet(tweetContent, niceHandler);
+                }
+
             }
         });
     }

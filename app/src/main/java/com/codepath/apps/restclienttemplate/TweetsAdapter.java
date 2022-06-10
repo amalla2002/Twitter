@@ -1,6 +1,8 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -68,6 +70,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvName;
         ImageButton ibFavorite;
         TextView tvFavoriteCount;
+        ImageButton ibReply;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -79,13 +83,26 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvName = itemView.findViewById(R.id.tvName);
             ibFavorite = itemView.findViewById(R.id.ibFavorite);
             tvFavoriteCount = itemView.findViewById(R.id.tvFavoriteCount);
-
+            ibReply = itemView.findViewById(R.id.ibReply);
         }
         public void bind(Tweet tweet) {
             tvBody.setText(tweet.body);
             tvScreenName.setText(tweet.user.screenName);
             tvName.setText(tweet.user.name);
 
+
+            ibReply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // compose
+                    Intent i = new Intent(context, ComposeActivity.class);
+                    i.putExtra("should_reply_to_tweet", true);
+                    i.putExtra("id_of_tweet_to_reply_to", tweet.id);
+                    i.putExtra("username", tweet.user.screenName);
+//                    context.startActivity(i);
+                    ( (Activity) context).startActivityForResult(i, TimelineActivity.REQUEST_CODE);
+                }
+            });
 
             //here it crashes
             tvFavoriteCount.setText(String.valueOf(tweet.favoriteCount));
