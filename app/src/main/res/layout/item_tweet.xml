@@ -74,21 +74,61 @@
         tools:text="Alejandro Malla" />
 
     <TextView
-        android:id="@+id/tvLikeCount"
+        android:id="@+id/tvFavoriteCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ibLike"
+        app:layout_constraintStart_toEndOf="@+id/ibFavorite"
         tools:text="57" />
 
     <ImageButton
-        android:id="@+id/ibLike"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:id="@+id/ibFavorite"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="32dp"
         android:background="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ivProfileImage"
+        app:layout_constraintStart_toEndOf="@+id/ibRetweet"
         app:layout_constraintTop_toBottomOf="@id/ivMedia"
-        app:srcCompat="@drawable/ic_vector_heart_stroke" />
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_vector_heart_stroke"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/ibRetweet"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="32dp"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ibReply"
+        app:srcCompat="@drawable/ic_vector_retweet_stroke" />
+
+    <ImageButton
+        android:id="@+id/ibReply"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
+        app:srcCompat="@drawable/ic_vector_compose_dm" />
+
+    <TextView
+        android:id="@+id/tvRetweetCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ibRetweet"
+        tools:text="33" />
+
+    <TextView
+        android:id="@+id/tvReplyCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ibReply"
+        tools:text="43" />
 </androidx.constraintlayout.widget.ConstraintLayout>

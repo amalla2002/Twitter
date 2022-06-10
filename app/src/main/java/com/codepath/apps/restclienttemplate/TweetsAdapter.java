@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +16,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+
+import okhttp3.Headers;
 
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder>{
 
@@ -62,8 +66,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         ImageView ivMedia; // new
         TextView tvCreatedAt;
         TextView tvName;
-        ImageButton ibLike;
-        TextView tvLikeCount;
+        ImageButton ibFavorite;
+        TextView tvFavoriteCount;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -73,14 +77,28 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ivMedia = itemView.findViewById(R.id.ivMedia); //new
             tvCreatedAt = itemView.findViewById(R.id.tvCreated);
             tvName = itemView.findViewById(R.id.tvName);
-            ibLike = itemView.findViewById(R.id.ibLike);
-            tvLikeCount = itemView.findViewById(R.id.tvLikeCount);
+            ibFavorite = itemView.findViewById(R.id.ibFavorite);
+            tvFavoriteCount = itemView.findViewById(R.id.tvFavoriteCount);
 
         }
         public void bind(Tweet tweet) {
             tvBody.setText(tweet.body);
             tvScreenName.setText(tweet.user.screenName);
             tvName.setText(tweet.user.name);
+
+
+            //here it crashes
+            tvFavoriteCount.setText(String.valueOf(tweet.favoriteCount));
+            if (tweet.isFavorite){
+                Drawable newImage = context.getDrawable(R.drawable.ic_vector_heart);
+                ibFavorite.setImageDrawable(newImage);
+            } else {
+                Drawable newImage = context.getDrawable(R.drawable.ic_vector_heart_stroke);
+                ibFavorite.setImageDrawable(newImage);
+            }
+
+            //
+
             Glide.with(context).load(tweet.user.publicImageUrl).transform(new RoundedCorners(90)).into(ivProfileImage);
             if (tweet.mediaUrl!="") {
                 ivMedia.setVisibility(View.VISIBLE); //
@@ -91,16 +109,49 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             }
             tvCreatedAt.setText(getRelativeTimeAgo(tweet.createdAt));
 
-            ibLike.setOnClickListener(new View.OnClickListener() {
+            ibFavorite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+//                     liked //send unlike. lower like count, change icon
 
-                    // not liked
-                        // send like, up like count, change icon
+                    if (tweet.isFavorite) {
+                        tweet.isFavorite = false;
+                        TwitterApp.getRestClient(context).unFavorite(tweet.id, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                Log.i("adapter", "this should've been liked, go check");
+                            }
 
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
 
-                    // liked
-                        //send unlike. lower like count, change icon
+                            }
+                        });
+
+                        Drawable newImage = context.getDrawable(R.drawable.ic_vector_heart_stroke);
+                        --tweet.favoriteCount;
+                        ibFavorite.setImageDrawable(newImage);
+                        tvFavoriteCount.setText(String.valueOf(tweet.favoriteCount));
+
+                    } else {// not liked // send like, up like count, change icon
+                        tweet.isFavorite = true;
+                        TwitterApp.getRestClient(context).Favorite(tweet.id, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                Log.i("adapter", "this should've been liked, go check");
+                            }
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+
+                            }
+                        });
+                        Drawable newImage = context.getDrawable(R.drawable.ic_vector_heart);
+                        ibFavorite.setImageDrawable(newImage);
+                        ++tweet.favoriteCount;
+                        tvFavoriteCount.setText(String.valueOf(tweet.favoriteCount));
+
+                    }
+
                 }
             });
 
