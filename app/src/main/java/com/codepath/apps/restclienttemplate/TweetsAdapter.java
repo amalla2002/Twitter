@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
 import java.text.ParseException;
@@ -72,7 +73,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         public void bind(Tweet tweet) {
             tvBody.setText(tweet.body);
             tvScreenName.setText(tweet.user.screenName);
-            Glide.with(context).load(tweet.user.publicImageUrl).into(ivProfileImage);
+            Glide.with(context).load(tweet.user.publicImageUrl).transform(new RoundedCorners(90)).into(ivProfileImage);
             if (tweet.mediaUrl!="") {
                 ivMedia.setVisibility(View.VISIBLE); //
                 Glide.with(context).load(tweet.mediaUrl).into(ivMedia); // new
