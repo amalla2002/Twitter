@@ -71,7 +71,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         ImageButton ibFavorite;
         TextView tvFavoriteCount;
         ImageButton ibReply;
-
+        TextView tvRetweetCount;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -84,11 +84,13 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ibFavorite = itemView.findViewById(R.id.ibFavorite);
             tvFavoriteCount = itemView.findViewById(R.id.tvFavoriteCount);
             ibReply = itemView.findViewById(R.id.ibReply);
+            tvRetweetCount = itemView.findViewById(R.id.tvRetweetCount);
         }
         public void bind(Tweet tweet) {
             tvBody.setText(tweet.body);
             tvScreenName.setText(tweet.user.screenName);
             tvName.setText(tweet.user.name);
+            tvRetweetCount.setText(String.valueOf(tweet.retweetCount));
 
 
             ibReply.setOnClickListener(new View.OnClickListener() {

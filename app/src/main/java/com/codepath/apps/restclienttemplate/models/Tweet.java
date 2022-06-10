@@ -23,6 +23,7 @@ public class Tweet {
     public String id;
     public Boolean isRetweeted;
     public int retweetCount;
+    // reply count is not in the api. : https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/api-reference/get-statuses-home_timeline
 
     public Tweet() {}
 
@@ -38,6 +39,7 @@ public class Tweet {
         tweet.favoriteCount = jsonObject.getInt("favorite_count");
         tweet.isRetweeted = jsonObject.getBoolean("retweeted");
         tweet.id = jsonObject.getString("id_str");
+        tweet.retweetCount = jsonObject.getInt("retweet_count"); // new
 
         Log.d("something", jsonObject.toString());
         try {
