@@ -46,6 +46,7 @@ The following **additional** features are implemented:
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
+![Screen_Recording_2022-06-10_at_4_23_04_PM_copy_AdobeExpress](https://user-images.githubusercontent.com/96102973/173163005-0cfc9990-09db-47ce-a797-0dea7564d5fb.gif)
 
 <img src='![Screen_Recording_2022-06-10_at_4_23_04_PM_copy_AdobeExpress](https://user-images.githubusercontent.com/96102973/173162853-d96cad24-fc56-4cb8-8614-71f6f6275625.gif)
 ' title='Video Walkthrough' width='' alt='Video Walkthrough' />
